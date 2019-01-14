@@ -19,10 +19,10 @@ function addpost(post){
 }
 var db;
 document.addEventListener("DOMContentLoaded", function(e){
-  document.querySelector("#postform").addEventListener("submit", function(e){
+  document.getElementById("postform").addEventListener("submit", function(e){
     let post = {
-      name: document.querySelector("#name").value,
-      content: document.querySelector("#content").value,
+      name: document.getElementById("name").value,
+      content: document.getElementById("content").value,
       time: new Date()
     }
     // DB書き込み
@@ -34,8 +34,8 @@ document.addEventListener("DOMContentLoaded", function(e){
     }
 
     alert("投稿しました。");
-    document.querySelector("#name").value = "";
-    document.querySelector("#content").value = "";
+    document.getElementById("name").value = "";
+    document.getElementById("content").value = "";
     e.preventDefault();
     addpost(post);
   });
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function(e){
     db = e.target.result;
     let transaction = db.transaction(STORENAME, "readonly");
     let os = transaction.objectStore(STORENAME);
-    document.querySelector("#submit_button").disabled = false;
+    document.getElementById("submit_button").disabled = false;
     os.openCursor().onsuccess = (e) => {
       let c = e.target.result;
       if(c){
