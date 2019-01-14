@@ -18,8 +18,8 @@ function addpost(post){
   viewarea.appendChild(time);
 }
 var db;
-document.addEventListener("DOMContentLoaded", (e) => {
-  document.querySelector("#postform").addEventListener("submit", (e) => {
+document.addEventListener("DOMContentLoaded", function(e){
+  document.querySelector("#postform").addEventListener("submit", function(e){
     let post = {
       name: document.querySelector("#name").value,
       content: document.querySelector("#content").value,
@@ -41,12 +41,12 @@ document.addEventListener("DOMContentLoaded", (e) => {
   });
   // DB作成
   let openReq  = indexedDB.open(DBNAME, 1);
-  openReq.onupgradeneeded = (e) => {
+  openReq.onupgradeneeded = function(e){
     let dbsetup = e.target.result;
     dbsetup.createObjectStore(STORENAME, { keyPath: "id", autoIncrement: true});
     console.log("db created");
   }
-  openReq.onsuccess = (e) => {
+  openReq.onsuccess = function(e){
     db = e.target.result;
     let transaction = db.transaction(STORENAME, "readonly");
     let os = transaction.objectStore(STORENAME);
