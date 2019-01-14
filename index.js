@@ -1,7 +1,7 @@
 const DBNAME = 'sampleDB';
 const STORENAME = 'post';
 function addpost(post){
-  let viewarea = document.querySelector("#viewarea");
+  let viewarea = document.getElementById("viewarea");
   let name = document.createElement("dt");
   let content = document.createElement("dd");
   let time = document.createElement("dd");
