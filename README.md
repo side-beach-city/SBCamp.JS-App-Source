@@ -1,4 +1,4 @@
-# SBCamp.PHP-App-Sources
+# SBCamp.JS-App-Sources
 
 SBCamp. あなたのWebサイトに動きをつけよう！Javascript講座で使用しているプログラムのソースコードです。
 
