@@ -17,7 +17,7 @@ function addpost(post){
   viewarea.appendChild(content);
   viewarea.appendChild(time);
 }
-var db;
+
 document.addEventListener("DOMContentLoaded", function(e){
   document.getElementById("postform").addEventListener("submit", function(e){
     let post = {
@@ -25,13 +25,12 @@ document.addEventListener("DOMContentLoaded", function(e){
       content: document.getElementById("content").value,
       time: new Date()
     }
-    // DB書き込み
-    let transaction = db.transaction(STORENAME, 'readwrite');
-    let os = transaction.objectStore(STORENAME);
-    let request = os.add(post);
-    request.onsuccess = () => {
-      console.log("db add success");
+    let data = localStorage.getItem(STORENAME);
+    if(data == null){
+      data = [];
     }
+    data.push(post);
+    localStorage.setItem(STORENAME, JSON.stringify(data));
 
     alert("投稿しました。");
     document.getElementById("name").value = "";
@@ -39,25 +38,13 @@ document.addEventListener("DOMContentLoaded", function(e){
     e.preventDefault();
     addpost(post);
   });
-  // DB作成
-  let openReq  = indexedDB.open(DBNAME, 1);
-  openReq.onupgradeneeded = function(e){
-    let dbsetup = e.target.result;
-    dbsetup.createObjectStore(STORENAME, { keyPath: "id", autoIncrement: true});
-    console.log("db created");
+  let data = localStorage.getItem(STORENAME);
+  if(data != null){
+    data = JSON.parse(data);
+    data.forEach(e => {
+      e.time = new Date(e.time);
+      addpost(e)
+    });
   }
-  openReq.onsuccess = function(e){
-    db = e.target.result;
-    let transaction = db.transaction(STORENAME, "readonly");
-    let os = transaction.objectStore(STORENAME);
-    document.getElementById("submit_button").disabled = false;
-    os.openCursor().onsuccess = (e) => {
-      let c = e.target.result;
-      if(c){
-        console.log("loaded " + c.key);
-        addpost(c.value);
-        c.continue();
-      }
-    }
-  }
+  document.getElementById("submit_button").disabled = false;
 });
