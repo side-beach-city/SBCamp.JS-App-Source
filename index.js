@@ -28,6 +28,8 @@ document.addEventListener("DOMContentLoaded", function(e){
     let data = localStorage.getItem(STORENAME);
     if(data == null){
       data = [];
+    }else{
+      data = JSON.parse(data);
     }
     data.push(post);
     localStorage.setItem(STORENAME, JSON.stringify(data));
